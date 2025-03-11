@@ -2,14 +2,20 @@ import { Id } from "../../../@shared/domain/value-objects";
 import { UseCaseInterface } from "../../../@shared/usecases/use-case.interface";
 import { Product } from "../../domain/entities/product/product.entity";
 import { ProductGateway } from "../../gateways/product.gateway";
-import { AddProductInputDTO, AddProductOutputDTO } from "./add-product.dto";
+import {
+	AddProductUseCaseInputDTO,
+	AddProductUseCaseOutputDTO,
+} from "./add-product.dto";
 
 export class AddProductUseCase
-	implements UseCaseInterface<AddProductInputDTO, AddProductOutputDTO>
+	implements
+		UseCaseInterface<AddProductUseCaseInputDTO, AddProductUseCaseOutputDTO>
 {
 	constructor(private readonly productRepository: ProductGateway) {}
 
-	async execute(input: AddProductInputDTO): Promise<AddProductOutputDTO> {
+	async execute(
+		input: AddProductUseCaseInputDTO
+	): Promise<AddProductUseCaseOutputDTO> {
 		const props = {
 			id: new Id(input.id),
 			name: input.name,

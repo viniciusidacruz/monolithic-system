@@ -1,8 +1,8 @@
-export interface CheckStockInputDTO {
+export interface CheckStockUseCaseInputDTO {
 	productId: string;
 }
 
-export interface CheckStockOutputDTO {
+export interface CheckStockUseCaseOutputDTO {
 	productId: string;
 	stock: number;
 }

@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { ProductModel } from "../repository/product.model";
 import { ProductADMFacadeFactory } from "../factory/facade.factory";
 
-describe("Product repository test", () => {
+describe("Product ADM Facade test", () => {
 	let sequelize: Sequelize;
 
 	beforeEach(async () => {

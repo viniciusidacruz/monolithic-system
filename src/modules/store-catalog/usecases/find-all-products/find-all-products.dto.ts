@@ -1,4 +1,4 @@
-export interface FindAllProductsOutputDTO {
+export interface FindAllProductsUseCaseOutputDTO {
 	products: {
 		id: string;
 		name: string;

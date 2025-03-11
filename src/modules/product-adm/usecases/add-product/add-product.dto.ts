@@ -1,4 +1,4 @@
-export interface AddProductInputDTO {
+export interface AddProductUseCaseInputDTO {
 	id?: string;
 	name: string;
 	description: string;
@@ -6,10 +6,11 @@ export interface AddProductInputDTO {
 	stock: number;
 }
 
-export interface AddProductOutputDTO {
+export interface AddProductUseCaseOutputDTO {
 	id: string;
 	name: string;
 	description: string;
 	purchasePrice: number;
 	stock: number;
 }
+

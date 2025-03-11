@@ -1,5 +1,13 @@
 import { UseCaseInterface } from "../../@shared/usecases/use-case.interface";
 import {
+	AddProductUseCaseInputDTO,
+	AddProductUseCaseOutputDTO,
+} from "../usecases/add-product/add-product.dto";
+import {
+	CheckStockUseCaseInputDTO,
+	CheckStockUseCaseOutputDTO,
+} from "../usecases/check-stock/check-stock.dto";
+import {
 	AddProductFacadeInputDTO,
 	CheckStockFacadeInputDTO,
 	CheckStockFacadeOutputDTO,
@@ -8,11 +16,17 @@ import {
 
 export class ProductAdmFacade implements ProductAdmFacadeInterface {
 	constructor(
-		private addUseCase: UseCaseInterface,
-		private checkStockUseCase: UseCaseInterface
+		private addUseCase: UseCaseInterface<
+			AddProductUseCaseInputDTO,
+			AddProductUseCaseOutputDTO
+		>,
+		private checkStockUseCase: UseCaseInterface<
+			CheckStockUseCaseInputDTO,
+			CheckStockUseCaseOutputDTO
+		>
 	) {}
 	async addProduct(input: AddProductFacadeInputDTO): Promise<void> {
-		return this.addUseCase.execute(input);
+		await this.addUseCase.execute(input);
 	}
 
 	async checkStock(
