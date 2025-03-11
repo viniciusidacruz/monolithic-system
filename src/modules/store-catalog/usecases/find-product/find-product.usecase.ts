@@ -1,13 +1,14 @@
 import { UseCaseInterface } from "../../../@shared/usecases/use-case.interface";
 import { ProductGateway } from "../../gateways/product.gateway";
-import { CheckStockInputDTO, CheckStockOutputDTO } from "./check-stock.dto";
 
-export class CheckStockUseCase
-	implements UseCaseInterface<CheckStockInputDTO, CheckStockOutputDTO>
+import { FindProductInputDTO, FindProductOutputDTO } from "./find-product.dto";
+
+export class FindProductUseCase
+	implements UseCaseInterface<FindProductInputDTO, FindProductOutputDTO>
 {
 	constructor(private readonly productRepository: ProductGateway) {}
 
-	async execute(input: CheckStockInputDTO): Promise<CheckStockOutputDTO> {
+	async execute(input: FindProductInputDTO): Promise<FindProductOutputDTO> {
 		const product = await this.productRepository.find(input.productId);
 
 		if (!product) {
@@ -15,8 +16,10 @@ export class CheckStockUseCase
 		}
 
 		return {
-			productId: product.id.id,
-			stock: product.stock,
+			id: product.id.id,
+			name: product.name,
+			description: product.description,
+			salesPrice: product.salesPrice,
 		};
 	}
 }
