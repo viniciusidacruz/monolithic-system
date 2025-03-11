@@ -44,4 +44,25 @@ describe("Product repository test", () => {
 		expect(productDb?.purchasePrice).toBe(1);
 		expect(productDb?.stock).toBe(1);
 	});
+
+	it("Should check stock of a product", async () => {
+		const productFacade = ProductADMFacadeFactory.create();
+
+		await ProductModel.create({
+			id: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728",
+			name: "Product 1",
+			description: "product description",
+			purchasePrice: 100,
+			stock: 10,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		});
+
+		const input = { productId: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728" };
+
+		const output = await productFacade.checkStock(input);
+
+		expect(output.productId).toBe("1d5427d6-d0fc-4cfd-94dc-e5d2099e1728");
+		expect(output.stock).toBe(10);
+	});
 });
