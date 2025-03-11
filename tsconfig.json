@@ -8,6 +8,8 @@
 		"skipLibCheck": true,
 		"outDir": "build",
 		"noImplicitAny": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
 	"include": ["src"],
 	"exclude": ["node_modules", "coverage", "build"]
