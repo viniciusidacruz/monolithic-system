@@ -47,4 +47,29 @@ describe("Product repository test", () => {
 		expect(productProps.purchasePrice).toEqual(productDb?.purchasePrice);
 		expect(productProps.stock).toEqual(productDb?.stock);
 	});
+
+	it("Should find a product by id", async () => {
+		const productRepository = new ProductRepository();
+
+		await ProductModel.create({
+			id: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728",
+			name: "Product 1",
+			description: "product description",
+			purchasePrice: 100,
+			stock: 10,
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		});
+
+		const foundProduct = await productRepository.find(
+			"1d5427d6-d0fc-4cfd-94dc-e5d2099e1728"
+		);
+
+		expect(foundProduct).toBeInstanceOf(Product);
+		expect(foundProduct?.id.id).toBe("1d5427d6-d0fc-4cfd-94dc-e5d2099e1728");
+		expect(foundProduct?.name).toBe("Product 1");
+		expect(foundProduct?.description).toBe("product description");
+		expect(foundProduct?.purchasePrice).toBe(100);
+		expect(foundProduct?.stock).toBe(10);
+	});
 });
