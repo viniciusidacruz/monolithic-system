@@ -37,4 +37,24 @@ describe("Product repository test", () => {
 
 		expect(products.length).toBe(1);
 	});
+
+	it("Should find a product", async () => {
+		const productRepository = new ProductRepository();
+
+		await ProductModel.create({
+			id: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728",
+			name: "Product 1",
+			description: "product description",
+			salesPrice: 100,
+		});
+
+		const foundProduct = await productRepository.find(
+			"1d5427d6-d0fc-4cfd-94dc-e5d2099e1728"
+		);
+
+		expect(foundProduct?.id.id).toBe("1d5427d6-d0fc-4cfd-94dc-e5d2099e1728");
+		expect(foundProduct?.name).toBe("Product 1");
+		expect(foundProduct?.description).toBe("product description");
+		expect(foundProduct?.salesPrice).toBe(100);
+	});
 });
