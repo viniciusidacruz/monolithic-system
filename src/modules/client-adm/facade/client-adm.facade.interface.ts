@@ -7,6 +7,8 @@ export interface AddClientFacadeInputDTO {
 		city: string;
 		state: string;
 		zipCode: string;
+		number: string;
+		complement: string;
 	};
 }
 
@@ -23,6 +25,8 @@ export interface FindClientOutputDTO {
 		city: string;
 		state: string;
 		zipCode: string;
+		number: string;
+		complement: string;
 	};
 }
 

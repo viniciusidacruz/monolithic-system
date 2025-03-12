@@ -19,6 +19,8 @@ describe("Add Client usecase unit test", () => {
 				city: "Anytown",
 				state: "CA",
 				zipCode: "12345",
+				number: "12345",
+				complement: "Casa",
 			},
 		};
 

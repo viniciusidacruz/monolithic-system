@@ -7,6 +7,8 @@ export interface AddClientUseCaseInputDTO {
 		city: string;
 		state: string;
 		zipCode: string;
+		number: string;
+		complement: string;
 	};
 }
 

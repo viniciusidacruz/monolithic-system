@@ -24,7 +24,9 @@ export class AddClientUseCase
 				input.address.street,
 				input.address.city,
 				input.address.state,
-				input.address.zipCode
+				input.address.zipCode,
+				input.address.number,
+				input.address.complement
 			),
 		};
 

@@ -27,5 +27,7 @@ export class ClientModel extends Model {
 		city: string;
 		state: string;
 		zipCode: string;
+		number: string;
+		complement: string;
 	};
 }

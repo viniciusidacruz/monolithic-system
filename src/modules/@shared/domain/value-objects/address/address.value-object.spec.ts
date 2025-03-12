@@ -5,23 +5,39 @@ describe("Address unit tests", () => {
 	describe("Error ❌", () => {
 		it("Should throw error when street is empty", () => {
 			expect(() => {
-				new Address("", "Ribeirão Pires", "São Paulo", "09421-540");
+				new Address(
+					"",
+					"Ribeirão Pires",
+					"São Paulo",
+					"09421-540",
+					"1",
+					"Casa"
+				);
 			}).toThrow("Street is required");
 		});
 
 		it("Should throw error when city is empty", () => {
 			expect(() => {
-				new Address("Av. Papa João XXIII, 695", "", "São Paulo", "09421-540");
+				new Address(
+					"Av. Papa João XXIII",
+					"",
+					"São Paulo",
+					"09421-540",
+					"1",
+					"Casa"
+				);
 			}).toThrow("City is required");
 		});
 
 		it("Should throw error when state is empty", () => {
 			expect(() => {
 				new Address(
-					"Av. Papa João XXIII, 695",
+					"Av. Papa João XXIII",
 					"Ribeirão Pires",
 					"",
-					"09421-540"
+					"09421-540",
+					"1",
+					"Casa"
 				);
 			}).toThrow("State is required");
 		});
@@ -29,10 +45,12 @@ describe("Address unit tests", () => {
 		it("Should throw error when zip code is empty", () => {
 			expect(() => {
 				new Address(
-					"Av. Papa João XXIII, 695",
+					"Av. Papa João XXIII",
 					"Ribeirão Pires",
 					"São Paulo",
-					""
+					"",
+					"1",
+					"Casa"
 				);
 			}).toThrow("Zip code is required");
 		});
@@ -41,14 +59,16 @@ describe("Address unit tests", () => {
 	describe("Success ✅", () => {
 		it("Should create valid address", () => {
 			const address = new Address(
-				"Av. Papa João XXIII, 695",
+				"Av. Papa João XXIII",
 				"Ribeirão Pires",
 				"São Paulo",
-				"09421-540"
+				"09421-540",
+				"1",
+				"Casa"
 			);
 
 			expect(address.toString()).toBe(
-				"Av. Papa João XXIII, 695, Ribeirão Pires, São Paulo 09421-540"
+				"Av. Papa João XXIII - 1, Ribeirão Pires, São Paulo 09421-540 | Casa"
 			);
 		});
 
@@ -57,7 +77,9 @@ describe("Address unit tests", () => {
 				"Av. Papa João XXIII, 695",
 				"Ribeirão Pires",
 				"São Paulo",
-				"09421-540"
+				"09421-540",
+				"1",
+				"Casa"
 			);
 
 			expect(address.validate()).toBeTruthy();

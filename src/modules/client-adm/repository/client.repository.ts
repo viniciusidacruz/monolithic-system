@@ -30,7 +30,9 @@ export class ClientRepository implements ClientGateway {
 				clientDb.address.street,
 				clientDb.address.city,
 				clientDb.address.state,
-				clientDb.address.zipCode
+				clientDb.address.zipCode,
+				clientDb.address.number,
+				clientDb.address.complement
 			),
 		});
 	}

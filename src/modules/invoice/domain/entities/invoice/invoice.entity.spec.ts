@@ -16,7 +16,7 @@ describe("Invoice Item entity", () => {
 					name: "",
 					items: [invoiceItem],
 					document: "123",
-					address: new Address("Street", "City", "State", "Zip"),
+					address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 				});
 			}).toThrow("Name is required");
 		});
@@ -32,7 +32,7 @@ describe("Invoice Item entity", () => {
 					name: "Invoice 1",
 					items: [invoiceItem],
 					document: "",
-					address: new Address("Street", "City", "State", "Zip"),
+					address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 				});
 			}).toThrow("Document is required");
 		});
@@ -43,7 +43,7 @@ describe("Invoice Item entity", () => {
 					name: "Invoice 1",
 					items: [],
 					document: "document",
-					address: new Address("Street", "City", "State", "Zip"),
+					address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 				});
 			}).toThrow("At least one item is required");
 		});
@@ -60,7 +60,7 @@ describe("Invoice Item entity", () => {
 				name: "Invoice 1",
 				items: [invoiceItem],
 				document: "123",
-				address: new Address("Street", "City", "State", "Zip"),
+				address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 			});
 
 			expect(invoice.name).toBe("Invoice 1");

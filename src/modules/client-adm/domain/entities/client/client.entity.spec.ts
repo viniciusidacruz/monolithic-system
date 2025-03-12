@@ -10,7 +10,7 @@ describe("Client entity", () => {
 				new Client({
 					name: "",
 					email: new Email("example@example.com"),
-					address: new Address("Street", "City", "State", "Zip"),
+					address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 				});
 			}).toThrow("Name is required");
 		});
@@ -21,7 +21,7 @@ describe("Client entity", () => {
 			const client = new Client({
 				name: "John Doe",
 				email: new Email("example@example.com"),
-				address: new Address("Street", "City", "State", "Zip"),
+				address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 			});
 			expect(client.name).toBe("John Doe");
 			expect(client.email.toString()).toBe("example@example.com");
@@ -35,7 +35,7 @@ describe("Client entity", () => {
 			const client = new Client({
 				name: "John Doe",
 				email: new Email("example@example.com"),
-				address: new Address("Street", "City", "State", "Zip"),
+				address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 			});
 			client.updateEmail(new Email("john.doe@example.com"));
 			expect(client.email.toString()).toBe("john.doe@example.com");
@@ -45,14 +45,16 @@ describe("Client entity", () => {
 			const client = new Client({
 				name: "John Doe",
 				email: new Email("example@example.com"),
-				address: new Address("Street", "City", "State", "Zip"),
+				address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 			});
 
 			const newAddress = new Address(
 				"New Street",
 				"New City",
 				"New State",
-				"New Zip"
+				"New Zip",
+				"2",
+				"New Casa"
 			);
 
 			client.changeAddress(newAddress);
@@ -68,7 +70,7 @@ describe("Client entity", () => {
 			const client = new Client({
 				name: "John Doe",
 				email: new Email("example@example.com"),
-				address: new Address("Street", "City", "State", "Zip"),
+				address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 			});
 			expect(() => client.validateFields()).not.toThrow();
 		});

@@ -35,6 +35,8 @@ describe("Client ADM Facade test", () => {
 				city: "Anytown",
 				state: "CA",
 				zipCode: "12345",
+				number: "12345",
+				complement: "Casa",
 			},
 		};
 
@@ -59,6 +61,8 @@ describe("Client ADM Facade test", () => {
 				city: "Anytown",
 				state: "CA",
 				zipCode: "12345",
+				number: "12345",
+				complement: "Casa",
 			},
 		});
 

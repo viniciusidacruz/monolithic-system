@@ -37,6 +37,8 @@ describe("Client repository test", () => {
 				city: "Anytown",
 				state: "CA",
 				zipCode: "12345",
+				number: "12345",
+				complement: "Casa",
 			},
 		});
 
@@ -48,7 +50,7 @@ describe("Client repository test", () => {
 		expect(foundClient?.name).toBe("Product 1");
 		expect(foundClient?.email.toString()).toBe("test@example.com");
 		expect(foundClient?.address.toString()).toBe(
-			"123 Main St, Anytown, CA 12345"
+			"123 Main St - 12345, Anytown, CA 12345 | Casa"
 		);
 	});
 
@@ -56,7 +58,7 @@ describe("Client repository test", () => {
 		const clientProps = {
 			name: "John Doe",
 			email: new Email("example@example.com"),
-			address: new Address("Street", "City", "State", "Zip"),
+			address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 		};
 
 		const client = new Client(clientProps);

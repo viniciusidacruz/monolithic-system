@@ -6,7 +6,7 @@ import { FindClientUseCase } from "./find-client.usecase";
 const client = new Client({
 	name: "John Doe",
 	email: new Email("john.doe@example.com"),
-	address: new Address("Street", "City", "State", "Zip"),
+	address: new Address("Street", "City", "State", "Zip", "1230", "Casa"),
 });
 
 const MockRepository = () => ({
