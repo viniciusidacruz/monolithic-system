@@ -1,4 +1,4 @@
-import { Address, Email } from "../../../@shared/domain/value-objects";
+import { Address, Email, Id } from "../../../@shared/domain/value-objects";
 import { UseCaseInterface } from "../../../@shared/usecases/use-case.interface";
 import { Client } from "../../domain/entities/client/client.entity";
 import { ClientGateway } from "../../gateways/client.gateway";
@@ -17,6 +17,7 @@ export class AddClientUseCase
 		input: AddClientUseCaseInputDTO
 	): Promise<AddClientUseCaseOutputDTO> {
 		const props = {
+			id: new Id(input.id),
 			name: input.name,
 			email: new Email(input.email),
 			address: new Address(
