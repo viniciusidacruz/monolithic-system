@@ -44,7 +44,7 @@ describe("Product repository test", () => {
 
 	it("Should find a product by id", async () => {
 		const productFacade = StoreCatalogFacadeFactory.create();
-		const product = await ProductModel.create({
+		await ProductModel.create({
 			id: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728",
 			name: "Product 1",
 			description: "product description",
