@@ -20,4 +20,6 @@ export interface AddClientUseCaseOutputDTO {
 		state: string;
 		zipCode: string;
 	};
+	createdAt: Date;
+	updatedAt: Date;
 }

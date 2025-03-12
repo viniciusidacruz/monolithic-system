@@ -3,7 +3,7 @@ import { FindAllProductsUseCaseOutputDTO } from "../usecases/find-all-products/f
 import {
 	FindProductUseCaseInputDTO,
 	FindProductUseCaseOutputDTO,
-} from "../usecases/find-product/find-product.dto";
+} from "../usecases/find-product/find-product.usecase.dto";
 import {
 	FindAllProductsOutputDTO,
 	FindProductByIdInput,

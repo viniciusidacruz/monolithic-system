@@ -4,7 +4,7 @@ import { ProductGateway } from "../../gateways/product.gateway";
 import {
 	FindProductUseCaseInputDTO,
 	FindProductUseCaseOutputDTO,
-} from "./find-product.dto";
+} from "./find-product.usecase.dto";
 
 export class FindProductUseCase
 	implements

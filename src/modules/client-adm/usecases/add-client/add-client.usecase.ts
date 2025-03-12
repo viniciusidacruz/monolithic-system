@@ -36,6 +36,8 @@ export class AddClientUseCase
 			name: client.name,
 			email: client.email.toString(),
 			address: client.address,
+			createdAt: client.createdAt,
+			updatedAt: client.updatedAt,
 		};
 	}
 }
