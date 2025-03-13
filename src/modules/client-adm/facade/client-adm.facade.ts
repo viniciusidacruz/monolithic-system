@@ -10,8 +10,8 @@ import {
 import {
 	AddClientFacadeInputDTO,
 	ClientAdmFacadeInterface,
-	FindClientInputDTO,
-	FindClientOutputDTO,
+	FindClientFacadeInputDTO,
+	FindClientFacadeOutputDTO,
 } from "./client-adm.facade.interface";
 
 export class ClientAdmFacade implements ClientAdmFacadeInterface {
@@ -30,7 +30,9 @@ export class ClientAdmFacade implements ClientAdmFacadeInterface {
 		await this.addClientUseCase.execute(input);
 	}
 
-	async findClient(input: FindClientInputDTO): Promise<FindClientOutputDTO> {
+	async findClient(
+		input: FindClientFacadeInputDTO
+	): Promise<FindClientFacadeOutputDTO> {
 		return this.findClientUseCase.execute(input);
 	}
 }

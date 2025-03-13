@@ -12,11 +12,11 @@ export interface AddClientFacadeInputDTO {
 	};
 }
 
-export interface FindClientInputDTO {
+export interface FindClientFacadeInputDTO {
 	clientId: string;
 }
 
-export interface FindClientOutputDTO {
+export interface FindClientFacadeOutputDTO {
 	id: string;
 	name: string;
 	email: string;
@@ -32,5 +32,7 @@ export interface FindClientOutputDTO {
 
 export interface ClientAdmFacadeInterface {
 	addClient(input: AddClientFacadeInputDTO): Promise<void>;
-	findClient(input: FindClientInputDTO): Promise<FindClientOutputDTO>;
+	findClient(
+		input: FindClientFacadeInputDTO
+	): Promise<FindClientFacadeOutputDTO>;
 }

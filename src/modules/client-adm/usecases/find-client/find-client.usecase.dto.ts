@@ -11,6 +11,8 @@ export interface FindClientUseCaseOutputDTO {
 		city: string;
 		state: string;
 		zipCode: string;
+		number: string;
+		complement: string;
 	};
 	createdAt: Date;
 	updatedAt: Date;
