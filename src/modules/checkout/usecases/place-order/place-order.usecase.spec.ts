@@ -1,12 +1,14 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 import { PlaceOrderUseCase } from "./place-order.usecase";
 import { PlaceOrderUseCaseInputDTO } from "./place-order.usecase.dto";
+
+const mockDate = new Date(2001, 1, 1);
 
 describe("Place order use case unit test", () => {
 	//@ts-expect-error
 	const placeOrderUseCase = new PlaceOrderUseCase();
 
-	describe("Execute method", () => {
+	describe("execute method", () => {
 		it("Should throw an error when client not found", async () => {
 			const mockClientFacade = {
 				findClient: vi.fn().mockResolvedValue(null),
@@ -85,6 +87,30 @@ describe("Place order use case unit test", () => {
 				placeOrderUseCase["validateProducts"](input)
 			).rejects.toThrow("Product 1 is not available in stock.");
 			expect(mockProductFacade.checkStock).toHaveBeenCalledTimes(5);
+		});
+	});
+
+	describe("getProducts method", () => {
+		beforeAll(() => {
+			vi.useFakeTimers();
+			vi.setSystemTime(mockDate);
+		});
+
+		afterAll(() => {
+			vi.useRealTimers();
+		});
+
+		it("Should throw error when product not found", async () => {
+			const mockCatalogFacade = {
+				findProductById: vi.fn().mockResolvedValue(null),
+			};
+
+			//@ts-expect-error
+			placeOrderUseCase["_catalogFacade"] = mockCatalogFacade;
+
+			await expect(placeOrderUseCase["getProduct"]("0")).rejects.toThrow(
+				"Product not found"
+			);
 		});
 	});
 });
