@@ -19,6 +19,7 @@ export class AddClientUseCase
 		const props = {
 			id: new Id(input.id),
 			name: input.name,
+			document: input.document,
 			email: new Email(input.email),
 			address: new Address(
 				input.address.street,
@@ -38,6 +39,7 @@ export class AddClientUseCase
 			id: client.id.id,
 			name: client.name,
 			email: client.email.toString(),
+			document: client.document,
 			address: client.address,
 			createdAt: client.createdAt,
 			updatedAt: client.updatedAt,

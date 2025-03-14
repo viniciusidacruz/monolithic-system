@@ -24,16 +24,18 @@ export class FindClientUseCase
 		return {
 			id: client.id.id,
 			name: client.name,
+			document: client.document,
 			email: client.email.toString(),
 			address: {
 				street: client.address.street,
 				city: client.address.city,
 				state: client.address.state,
 				zipCode: client.address.zipCode,
+				number: client.address.number,
+				complement: client.address.complement,
 			},
 			createdAt: client.createdAt,
 			updatedAt: client.updatedAt,
 		};
 	}
 }
-

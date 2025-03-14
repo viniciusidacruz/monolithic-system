@@ -6,6 +6,7 @@ import { Address, Email } from "../../../../@shared/domain/value-objects";
 
 export class Client extends BaseEntity implements AggregateRoot {
 	private _name: string;
+	private _document: string;
 	private _email: Email;
 	private _address: Address;
 
@@ -14,6 +15,7 @@ export class Client extends BaseEntity implements AggregateRoot {
 
 		this._name = props.name;
 		this._email = props.email;
+		this._document = props.document;
 		this._address = props.address;
 
 		this.validateFields();
@@ -21,6 +23,10 @@ export class Client extends BaseEntity implements AggregateRoot {
 
 	get name(): string {
 		return this._name;
+	}
+
+	get document(): string {
+		return this._document;
 	}
 
 	get email(): Email {
@@ -34,6 +40,10 @@ export class Client extends BaseEntity implements AggregateRoot {
 	validateFields(): void {
 		if (!this._name) {
 			throw new Error("Name is required");
+		}
+
+		if (!this._document) {
+			throw new Error("Document is required");
 		}
 	}
 

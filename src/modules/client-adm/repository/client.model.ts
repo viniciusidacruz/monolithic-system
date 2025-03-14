@@ -21,6 +21,9 @@ export class ClientModel extends Model {
 	@Column({ type: DataType.STRING, allowNull: false })
 	declare email: string;
 
+	@Column({ type: DataType.STRING, allowNull: false })
+	declare document: string;
+
 	@Column({ type: DataType.JSON, allowNull: false })
 	declare address: {
 		street: string;

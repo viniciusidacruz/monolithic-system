@@ -1,8 +1,10 @@
-import { Id } from "../../../@shared/domain/value-objects";
+import { Address, Email, Id } from "../../../@shared/domain/value-objects";
 import { UseCaseInterface } from "../../../@shared/usecases/use-case.interface";
 import { ClientAdmFacadeInterface } from "../../../client-adm/facade/client-adm.facade.interface";
 import { ProductAdmFacadeInterface } from "../../../product-adm/facade/product-adm.facade.interface";
 import { StoreCatalogFacadeInterface } from "../../../store-catalog/facade/stora-catalog.facade.interface";
+import { Client } from "../../domain/entities/client/client.entity";
+import { Order } from "../../domain/entities/order/order.entity";
 import { Product } from "../../domain/entities/product/product.entity";
 import {
 	PlaceOrderUseCaseInputDTO,
@@ -31,6 +33,29 @@ export class PlaceOrderUseCase
 		}
 
 		await this.validateProducts(input);
+
+		const products = await Promise.all(
+			input.products.map(async (p) => this.getProduct(p.productId))
+		);
+
+		const myClient = new Client({
+			id: new Id(client.id),
+			name: client.name,
+			email: new Email(client.email),
+			address: new Address(
+				client.address.street,
+				client.address.city,
+				client.address.state,
+				client.address.zipCode,
+				client.address.number,
+				client.address.complement
+			),
+		});
+
+		const order = new Order({
+			client: myClient,
+			products,
+		});
 
 		return {
 			id: "",

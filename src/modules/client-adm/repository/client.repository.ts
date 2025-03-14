@@ -9,6 +9,7 @@ export class ClientRepository implements ClientGateway {
 			id: client.id.id,
 			name: client.name,
 			email: client.email.toString(),
+			document: client.document,
 			address: client.address,
 			createdAt: new Date(),
 			updatedAt: new Date(),
@@ -25,6 +26,7 @@ export class ClientRepository implements ClientGateway {
 		return new Client({
 			id: new Id(clientDb.id),
 			name: clientDb.name,
+			document: clientDb.document,
 			email: new Email(clientDb.email),
 			address: new Address(
 				clientDb.address.street,

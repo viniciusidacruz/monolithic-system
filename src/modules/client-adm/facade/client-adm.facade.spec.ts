@@ -30,6 +30,7 @@ describe("Client ADM Facade test", () => {
 			id: "123",
 			name: "Test Client",
 			email: "test@example.com",
+			document: "document",
 			address: {
 				street: "123 Main St",
 				city: "Anytown",
@@ -45,6 +46,7 @@ describe("Client ADM Facade test", () => {
 		const clientDb = await ClientModel.findOne({ where: { id: "123" } });
 
 		expect(clientDb?.name).toBe("Test Client");
+		expect(clientDb?.document).toBe("document");
 		expect(clientDb?.email.toString()).toBe("test@example.com");
 		expect(clientDb?.address).toBeDefined();
 	});
@@ -56,6 +58,7 @@ describe("Client ADM Facade test", () => {
 			id: "test-uid",
 			name: "Test Client",
 			email: "test@example.com",
+			document: "document",
 			address: {
 				street: "123 Main St",
 				city: "Anytown",
@@ -74,6 +77,7 @@ describe("Client ADM Facade test", () => {
 
 		expect(output.id).toBe("test-uid");
 		expect(output.name).toBe("Test Client");
+		expect(output.document).toBe("document");
 		expect(output.email.toString()).toBe("test@example.com");
 		expect(output.address).toBeDefined();
 	});

@@ -5,6 +5,7 @@ import { FindClientUseCase } from "./find-client.usecase";
 
 const client = new Client({
 	name: "John Doe",
+	document: "12345678909",
 	email: new Email("john.doe@example.com"),
 	address: new Address("Street", "City", "State", "Zip", "1230", "Casa"),
 });
@@ -26,6 +27,7 @@ describe("Find client use case unit test", () => {
 
 		expect(output.id).toBeDefined();
 		expect(output.name).toBe("John Doe");
+		expect(output.document).toBe("12345678909");
 		expect(output.email).toBe("john.doe@example.com");
 		expect(output.address.street).toBe("Street");
 		expect(output.address.city).toBe("City");

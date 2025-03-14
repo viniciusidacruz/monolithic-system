@@ -2,6 +2,7 @@ export interface AddClientUseCaseInputDTO {
 	id?: string;
 	name: string;
 	email: string;
+	document: string;
 	address: {
 		street: string;
 		city: string;
@@ -16,6 +17,7 @@ export interface AddClientUseCaseOutputDTO {
 	id: string;
 	name: string;
 	email: string;
+	document: string;
 	address: {
 		street: string;
 		city: string;

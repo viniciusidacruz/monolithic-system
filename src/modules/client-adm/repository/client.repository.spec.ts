@@ -32,6 +32,7 @@ describe("Client repository test", () => {
 			id: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728",
 			name: "Product 1",
 			email: "test@example.com",
+			document: "document",
 			address: {
 				street: "123 Main St",
 				city: "Anytown",
@@ -57,6 +58,7 @@ describe("Client repository test", () => {
 	it("Should create a new client", async () => {
 		const clientProps = {
 			name: "John Doe",
+			document: "document",
 			email: new Email("example@example.com"),
 			address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 		};
@@ -71,6 +73,7 @@ describe("Client repository test", () => {
 		});
 
 		expect(clientProps.name).toEqual(clientDb?.name);
+		expect(clientProps.document).toEqual(clientDb?.document);
 		expect(clientProps.email.toString()).toEqual(clientDb?.email);
 		expect(clientProps.address).toEqual(clientDb?.address);
 	});

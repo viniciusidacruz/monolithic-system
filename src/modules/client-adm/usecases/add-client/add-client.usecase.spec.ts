@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { AddClientUseCase } from "./add-client.usecase";
+import { AddClientUseCaseInputDTO } from "./add-client.usecases.dto";
 
 const MockRepository = () => ({
 	add: vi.fn(),
@@ -11,9 +12,10 @@ describe("Add Client usecase unit test", () => {
 		const clientRepository = MockRepository();
 		const useCase = new AddClientUseCase(clientRepository);
 
-		const input = {
+		const input: AddClientUseCaseInputDTO = {
 			name: "John Doe",
 			email: "jdoe@example.com",
+			document: "12345678909",
 			address: {
 				street: "123 Main St",
 				city: "Anytown",

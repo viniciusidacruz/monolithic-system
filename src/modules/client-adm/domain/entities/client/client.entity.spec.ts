@@ -9,10 +9,22 @@ describe("Client entity", () => {
 			expect(() => {
 				new Client({
 					name: "",
+					document: "document",
 					email: new Email("example@example.com"),
 					address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 				});
 			}).toThrow("Name is required");
+		});
+
+		it("Should throw error when document is empty", () => {
+			expect(() => {
+				new Client({
+					name: "John Doe",
+					document: "",
+					email: new Email("example@example.com"),
+					address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
+				});
+			}).toThrow("Document is required");
 		});
 	});
 
@@ -21,6 +33,7 @@ describe("Client entity", () => {
 			const client = new Client({
 				name: "John Doe",
 				email: new Email("example@example.com"),
+				document: "document",
 				address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 			});
 			expect(client.name).toBe("John Doe");
@@ -34,6 +47,7 @@ describe("Client entity", () => {
 		it("Should update email", () => {
 			const client = new Client({
 				name: "John Doe",
+				document: "document",
 				email: new Email("example@example.com"),
 				address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 			});
@@ -44,6 +58,7 @@ describe("Client entity", () => {
 		it("Should change address", () => {
 			const client = new Client({
 				name: "John Doe",
+				document: "document",
 				email: new Email("example@example.com"),
 				address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 			});
@@ -69,6 +84,7 @@ describe("Client entity", () => {
 		it("Should validate fields", () => {
 			const client = new Client({
 				name: "John Doe",
+				document: "document",
 				email: new Email("example@example.com"),
 				address: new Address("Street", "City", "State", "Zip", "1", "Casa"),
 			});
