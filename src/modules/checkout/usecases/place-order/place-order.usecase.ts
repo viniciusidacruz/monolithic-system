@@ -1,11 +1,14 @@
 import { Address, Email, Id } from "../../../@shared/domain/value-objects";
 import { UseCaseInterface } from "../../../@shared/usecases/use-case.interface";
 import { ClientAdmFacadeInterface } from "../../../client-adm/facade/client-adm.facade.interface";
+import { InvoiceFacadeInterface } from "../../../invoice/facade/invoice.facade.interface";
+import { PaymentFacadeInterface } from "../../../payment/facade/payment.facade.interface";
 import { ProductAdmFacadeInterface } from "../../../product-adm/facade/product-adm.facade.interface";
 import { StoreCatalogFacadeInterface } from "../../../store-catalog/facade/stora-catalog.facade.interface";
 import { Client } from "../../domain/entities/client/client.entity";
 import { Order } from "../../domain/entities/order/order.entity";
 import { Product } from "../../domain/entities/product/product.entity";
+import { CheckoutGateway } from "../../gateways/checkout.gateway";
 import {
 	PlaceOrderUseCaseInputDTO,
 	PlaceOrderUseCaseOutputDTO,
@@ -18,7 +21,10 @@ export class PlaceOrderUseCase
 	constructor(
 		private readonly _clientFacade: ClientAdmFacadeInterface,
 		private readonly _productFacade: ProductAdmFacadeInterface,
-		private readonly _catalogFacade: StoreCatalogFacadeInterface
+		private readonly _catalogFacade: StoreCatalogFacadeInterface,
+		private readonly _repository: CheckoutGateway,
+		private readonly _invoiceFacade: InvoiceFacadeInterface,
+		private readonly _paymentFacade: PaymentFacadeInterface
 	) {}
 
 	async execute(
@@ -57,12 +63,42 @@ export class PlaceOrderUseCase
 			products,
 		});
 
+		const payment = await this._paymentFacade.process({
+			orderId: order.id.id,
+			amount: order.total,
+		});
+
+		const invoice =
+			payment.status === "approved"
+				? await this._invoiceFacade.generateInvoice({
+						name: client.name,
+						document: client.email.toString(),
+						street: client.address.street,
+						number: client.address.number,
+						complement: client.address.complement,
+						city: client.address.city,
+						state: client.address.state,
+						zipCode: client.address.zipCode,
+						items: products.map((p) => ({
+							id: p.id.id,
+							name: p.name,
+							price: p.salesPrice,
+						})),
+				  })
+				: null;
+
+		payment.status === "approved" && order.approved();
+
+		this._repository.addOrder(order);
+
 		return {
-			id: "",
-			invoiceId: "",
-			status: "",
-			products: [],
-			total: 0,
+			id: order.id.id,
+			invoiceId: payment.status === "approved" && invoice ? invoice.id : null,
+			status: order.status,
+			products: order.products.map((p) => ({
+				productId: p.id.id,
+			})),
+			total: order.total,
 		};
 	}
 
@@ -90,6 +126,8 @@ export class PlaceOrderUseCase
 		const product = await this._catalogFacade.findProductById({
 			id: productId,
 		});
+
+		console.log("getProduct product: ", product);
 
 		if (!product) {
 			throw new Error(`Product not found.`);

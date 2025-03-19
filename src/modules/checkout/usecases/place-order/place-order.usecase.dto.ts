@@ -7,7 +7,7 @@ export interface PlaceOrderUseCaseInputDTO {
 
 export interface PlaceOrderUseCaseOutputDTO {
 	id: string;
-	invoiceId: string;
+	invoiceId: string | null;
 	status: string;
 	total: number;
 	products: {

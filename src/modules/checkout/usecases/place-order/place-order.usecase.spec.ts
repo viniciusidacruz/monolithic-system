@@ -52,6 +52,7 @@ describe("Place order use case unit test", () => {
 			};
 
 			const mockClientFacade = {
+				addClient: vi.fn(),
 				findClient: vi.fn().mockResolvedValue(clientProps),
 			};
 
@@ -64,27 +65,27 @@ describe("Place order use case unit test", () => {
 			};
 
 			const mockInvoiceFacade = {
-				create: vi.fn().mockResolvedValue({ id: "1i" }),
+				generateInvoice: vi.fn().mockResolvedValue({ id: "1i" }),
 			};
 
 			const placeOrderUseCase = new PlaceOrderUseCase(
 				mockClientFacade,
-				null,
-				null,
-				mockCheckoutRepo,
-				mockInvoiceFacade,
-				mockPaymentFacade
+				null as any,
+				null as any,
+				mockCheckoutRepo as any,
+				mockInvoiceFacade as any,
+				mockPaymentFacade as any
 			);
 
 			const products = {
 				"1": new Product({
-					id: new Id("1p"),
+					id: new Id("1"),
 					name: "Product 1",
 					description: "Description 1",
 					salesPrice: 100,
 				}),
 				"2": new Product({
-					id: new Id("2p"),
+					id: new Id("2"),
 					name: "Product 2",
 					description: "Description 2",
 					salesPrice: 200,
@@ -117,7 +118,7 @@ describe("Place order use case unit test", () => {
 
 				const input: PlaceOrderUseCaseInputDTO = {
 					clientId: "0",
-					products: [{ productId: "1" }, { productId: "2" }],
+					products: [{ productId: "1p" }, { productId: "2p" }],
 				};
 
 				let output = await placeOrderUseCase.execute(input);
