@@ -127,8 +127,6 @@ export class PlaceOrderUseCase
 			id: productId,
 		});
 
-		console.log("getProduct product: ", product);
-
 		if (!product) {
 			throw new Error(`Product not found.`);
 		}

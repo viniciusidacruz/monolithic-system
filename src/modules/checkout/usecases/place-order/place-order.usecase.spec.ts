@@ -118,7 +118,7 @@ describe("Place order use case unit test", () => {
 
 				const input: PlaceOrderUseCaseInputDTO = {
 					clientId: "0",
-					products: [{ productId: "1p" }, { productId: "2p" }],
+					products: [{ productId: "1" }, { productId: "2" }],
 				};
 
 				let output = await placeOrderUseCase.execute(input);
@@ -135,7 +135,9 @@ describe("Place order use case unit test", () => {
 					},
 				]);
 				expect(mockClientFacade.findClient).toHaveBeenCalledTimes(1);
-				expect(mockClientFacade.findClient).toHaveBeenCalledWith({ id: "1c" });
+				expect(mockClientFacade.findClient).toHaveBeenCalledWith({
+					clientId: "0",
+				});
 				expect(mockValidateProducts).toHaveBeenCalledTimes(1);
 				expect(mockValidateProducts).toHaveBeenCalledWith(input);
 				expect(mockGetProduct).toHaveBeenCalledTimes(2);
