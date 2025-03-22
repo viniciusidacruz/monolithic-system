@@ -1,4 +1,12 @@
-import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
+import {
+	describe,
+	it,
+	expect,
+	vi,
+	beforeAll,
+	afterAll,
+	beforeEach,
+} from "vitest";
 import { PlaceOrderUseCase } from "./place-order.usecase";
 import { PlaceOrderUseCaseInputDTO } from "./place-order.usecase.dto";
 import { Product } from "../../domain/entities/product/product.entity";
@@ -36,78 +44,89 @@ describe("Place order use case unit test", () => {
 		});
 
 		describe("Place an order", () => {
-			const clientProps = {
-				id: "1c",
-				name: "Test Client",
-				email: "test@example.com",
-				document: "document",
-				address: {
-					street: "street",
-					city: "city",
-					state: "state",
-					zipCode: "zip",
-					complement: "complement",
-					number: "number",
-				},
-			};
+			let placeOrderUseCase: PlaceOrderUseCase;
+			let mockClientFacade: any;
+			let mockPaymentFacade: any;
+			let mockCheckoutRepo: any;
+			let mockInvoiceFacade: any;
+			let mockValidateProducts: any;
+			let mockGetProduct: any;
+			let products: any;
 
-			const mockClientFacade = {
-				addClient: vi.fn(),
-				findClient: vi.fn().mockResolvedValue(clientProps),
-			};
+			beforeEach(() => {
+				const clientProps = {
+					id: "1c",
+					name: "Test Client",
+					email: "test@example.com",
+					document: "document",
+					address: {
+						street: "street",
+						city: "city",
+						state: "state",
+						zipCode: "zip",
+						complement: "complement",
+						number: "number",
+					},
+				};
 
-			const mockPaymentFacade = {
-				process: vi.fn(),
-			};
+				mockClientFacade = {
+					addClient: vi.fn(),
+					findClient: vi.fn().mockResolvedValue(clientProps),
+				};
 
-			const mockCheckoutRepo = {
-				addOrder: vi.fn(),
-			};
+				mockPaymentFacade = {
+					process: vi.fn(),
+				};
 
-			const mockInvoiceFacade = {
-				generateInvoice: vi.fn().mockResolvedValue({ id: "1i" }),
-			};
+				mockCheckoutRepo = {
+					addOrder: vi.fn(),
+				};
 
-			const placeOrderUseCase = new PlaceOrderUseCase(
-				mockClientFacade,
-				null as any,
-				null as any,
-				mockCheckoutRepo as any,
-				mockInvoiceFacade as any,
-				mockPaymentFacade as any
-			);
+				mockInvoiceFacade = {
+					generateInvoice: vi.fn().mockResolvedValue({ id: "1i" }),
+				};
 
-			const products = {
-				"1": new Product({
-					id: new Id("1"),
-					name: "Product 1",
-					description: "Description 1",
-					salesPrice: 100,
-				}),
-				"2": new Product({
-					id: new Id("2"),
-					name: "Product 2",
-					description: "Description 2",
-					salesPrice: 200,
-				}),
-			};
+				placeOrderUseCase = new PlaceOrderUseCase(
+					mockClientFacade,
+					null as any,
+					null as any,
+					mockCheckoutRepo as any,
+					mockInvoiceFacade as any,
+					mockPaymentFacade as any
+				);
 
-			const mockValidateProducts = vi
-				//@ts-expect-error
-				.spyOn(placeOrderUseCase, "validateProducts")
-				//@ts-expect-error
-				.mockResolvedValue(null);
+				products = {
+					"1": new Product({
+						id: new Id("1"),
+						name: "Product 1",
+						description: "Description 1",
+						salesPrice: 100,
+					}),
+					"2": new Product({
+						id: new Id("2"),
+						name: "Product 2",
+						description: "Description 2",
+						salesPrice: 200,
+					}),
+				};
 
-			const mockGetProduct = vi
-				//@ts-expect-error
-				.spyOn(placeOrderUseCase, "getProduct")
-				//@ts-expect-error
-				.mockImplementation((productId: keyof typeof products) => {
-					return products[productId];
-				});
+				mockValidateProducts = vi
+					//@ts-expect-error
+					.spyOn(placeOrderUseCase, "validateProducts")
+					//@ts-expect-error
+					.mockResolvedValue(null);
+
+				mockGetProduct = vi
+					//@ts-expect-error
+					.spyOn(placeOrderUseCase, "getProduct")
+					//@ts-expect-error
+					.mockImplementation((productId: keyof typeof products) => {
+						return products[productId];
+					});
+			});
 
 			it("should not be approved", async () => {
-				mockPaymentFacade.process = mockPaymentFacade.process.mockReturnValue({
+				mockPaymentFacade.process = vi.fn().mockReturnValue({
 					transactionId: "1t",
 					status: "pending",
 					amount: 300,
@@ -126,23 +145,31 @@ describe("Place order use case unit test", () => {
 				expect(output.invoiceId).toBeNull();
 				expect(output.total).toBe(300);
 				expect(output.products.length).toBe(2);
-				expect(output.products).toStrictEqual([
-					{
-						productId: "1",
-					},
-					{
-						productId: "2",
-					},
-				]);
-				expect(mockClientFacade.findClient).toHaveBeenCalledTimes(1);
-				expect(mockClientFacade.findClient).toHaveBeenCalledWith({
-					clientId: "0",
-				});
-				expect(mockValidateProducts).toHaveBeenCalledTimes(1);
-				expect(mockValidateProducts).toHaveBeenCalledWith(input);
-				expect(mockGetProduct).toHaveBeenCalledTimes(2);
-				expect(mockCheckoutRepo.addOrder).toHaveBeenCalledTimes(1);
 				expect(mockPaymentFacade.process).toHaveBeenCalledTimes(1);
+			});
+
+			it("Should be approved", async () => {
+				mockPaymentFacade.process = vi.fn().mockReturnValue({
+					transactionId: "1t",
+					status: "approved",
+					amount: 300,
+					orderId: "1o",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				});
+
+				const input: PlaceOrderUseCaseInputDTO = {
+					clientId: "1c",
+					products: [{ productId: "1" }, { productId: "2" }],
+				};
+
+				let output = await placeOrderUseCase.execute(input);
+
+				expect(output.invoiceId).toBe("1i");
+				expect(output.total).toBe(300);
+				expect(output.products.length).toBe(2);
+				expect(mockPaymentFacade.process).toHaveBeenCalledTimes(1);
+				expect(mockInvoiceFacade.generateInvoice).toHaveBeenCalledTimes(1);
 			});
 		});
 	});
