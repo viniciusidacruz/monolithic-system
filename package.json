@@ -32,9 +32,9 @@
 	"license": "MIT",
 	"author": "Vinicius Italo",
 	"type": "commonjs",
-	"main": "src/server.ts",
+	"main": "src/infrastructure/api/server.ts",
 	"scripts": {
-		"dev": "tsc --watch",
+		"dev": "nodemon src/infrastructure/api/server.ts tsc --watch",
 		"lint": "eslint src/**/*.ts --fix",
 		"test": "vitest",
 		"test:ui": "vitest --ui",
@@ -49,10 +49,14 @@
 		"vitest": "3.0.5"
 	},
 	"dependencies": {
+		"dotenv": "16.4.7",
 		"express": "4.21.2",
+		"nodemon": "3.1.9",
 		"sequelize": "6.37.5",
 		"sequelize-typescript": "2.1.6",
 		"sqlite3": "5.1.7",
+		"supertest": "7.1.0",
+		"ts-node": "10.9.2",
 		"uuid": "11.0.5",
 		"yup": "1.6.1"
 	}
