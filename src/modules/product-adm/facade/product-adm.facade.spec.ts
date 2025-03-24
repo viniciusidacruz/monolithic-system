@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { ProductModel } from "../repository/product.model";
+import { ProductRegistrationModel } from "../repository/product.model";
 import { ProductADMFacadeFactory } from "../factory/facade.factory";
 
 describe("Product ADM Facade test", () => {
@@ -15,7 +15,7 @@ describe("Product ADM Facade test", () => {
 			sync: { force: true },
 		});
 
-		sequelize.addModels([ProductModel]);
+		sequelize.addModels([ProductRegistrationModel]);
 		await sequelize.sync();
 	});
 
@@ -36,7 +36,9 @@ describe("Product ADM Facade test", () => {
 
 		await productFacade.addProduct(input);
 
-		const productDb = await ProductModel.findOne({ where: { id: "123" } });
+		const productDb = await ProductRegistrationModel.findOne({
+			where: { id: "123" },
+		});
 
 		expect(productDb).not.toBeNull();
 		expect(productDb?.name).toBe("Test Product");
@@ -48,7 +50,7 @@ describe("Product ADM Facade test", () => {
 	it("Should check stock of a product", async () => {
 		const productFacade = ProductADMFacadeFactory.create();
 
-		await ProductModel.create({
+		await ProductRegistrationModel.create({
 			id: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728",
 			name: "Product 1",
 			description: "product description",

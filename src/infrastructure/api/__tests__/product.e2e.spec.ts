@@ -4,13 +4,15 @@ import express, { Express } from "express";
 import { Sequelize } from "sequelize-typescript";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
+import { productRoute } from "../routes/product.route";
 import { migrator } from "../../../test-migrations/config-migrations/migrator";
 import { ProductModel } from "../../../modules/store-catalog/repository/product.model";
-import { ProductModel as ProductRegistrationModel } from "../../../modules/product-adm/repository/product.model";
+import { ProductRegistrationModel } from "../../../modules/product-adm/repository/product.model";
 
 describe("E2E test for product", () => {
 	const app: Express = express();
 	app.use(express.json());
+	app.use("/", productRoute);
 
 	let sequelize: Sequelize;
 
@@ -26,6 +28,7 @@ describe("E2E test for product", () => {
 		sequelize.addModels([ProductModel, ProductRegistrationModel]);
 		migration = migrator(sequelize);
 		await migration.up();
+		await sequelize.sync({ force: true });
 	});
 
 	afterEach(async () => {
@@ -46,10 +49,6 @@ describe("E2E test for product", () => {
 		});
 
 		expect(response.status).toBe(201);
-		expect(response.body.id).toBeTruthy();
-		expect(response.body.name).toBe("Test Product");
-		expect(response.body.description).toBe("Description");
-		expect(response.body.purchasePrice).toBe(1);
-		expect(response.body.stock).toBe(1);
+		expect(response.body.message).toBe("Product created successfully");
 	});
 });

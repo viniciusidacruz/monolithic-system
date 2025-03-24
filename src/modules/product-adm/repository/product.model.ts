@@ -3,10 +3,10 @@ import { DataType } from "sequelize-typescript";
 
 @Table({
 	tableName: "products",
-	modelName: "product-table",
+	modelName: "product-registration-table",
 	timestamps: false,
 })
-export class ProductModel extends Model {
+export class ProductRegistrationModel extends Model {
 	@PrimaryKey
 	@Column({ type: DataType.UUID, allowNull: false })
 	declare id: string;

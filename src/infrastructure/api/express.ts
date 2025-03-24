@@ -3,13 +3,15 @@ import { Sequelize } from "sequelize-typescript";
 
 import { InvoiceModel } from "../../modules/invoice/repository/invoice.model";
 import { ClientModel } from "../../modules/client-adm/repository/client.model";
-import { ProductModel } from "../../modules/product-adm/repository/product.model";
+import { ProductRegistrationModel } from "../../modules/product-adm/repository/product.model";
 import { TransactionModel } from "../../modules/payment/repository/transaction.model";
 import { InvoiceItemModel } from "../../modules/invoice/repository/invoice-item.model";
-import { ProductModel as ProductStoreCatalog } from "../../modules/store-catalog/repository/product.model";
+import { ProductModel } from "../../modules/store-catalog/repository/product.model";
+import { productRoute } from "./routes/product.route";
 
 export const app: Express = express();
 app.use(express.json());
+app.use("/product", productRoute);
 
 export let sequelize: Sequelize;
 
@@ -23,11 +25,11 @@ async function setupDb() {
 
 	sequelize.addModels([
 		ClientModel,
-		ProductModel,
+		ProductRegistrationModel,
 		InvoiceModel,
 		InvoiceItemModel,
 		TransactionModel,
-		ProductStoreCatalog,
+		ProductModel,
 	]);
 
 	await sequelize.sync();
