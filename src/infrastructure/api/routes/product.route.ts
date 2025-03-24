@@ -24,7 +24,6 @@ productRoute.post(
 			response.status(201).json({ message: "Product created successfully" });
 		} catch (err) {
 			const error = err as Error;
-			console.error("Erro na requisição:", error.message);
 
 			response.status(400).json({ error: error.message });
 		}

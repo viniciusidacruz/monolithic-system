@@ -51,4 +51,14 @@ describe("E2E test for product", () => {
 		expect(response.status).toBe(201);
 		expect(response.body.message).toBe("Product created successfully");
 	});
+
+	it("Should not be able to register a product with invalid data", async () => {
+		const response = await request(app).post("/product/create").send({
+			name: "Test Product",
+			description: "Description",
+			stock: 1,
+		});
+
+		expect(response.status).toBe(400);
+	});
 });

@@ -8,10 +8,12 @@ import { TransactionModel } from "../../modules/payment/repository/transaction.m
 import { InvoiceItemModel } from "../../modules/invoice/repository/invoice-item.model";
 import { ProductModel } from "../../modules/store-catalog/repository/product.model";
 import { productRoute } from "./routes/product.route";
+import { clientRoute } from "./routes/client.route";
 
 export const app: Express = express();
 app.use(express.json());
-app.use("/product", productRoute);
+app.use("/", productRoute);
+app.use("/", clientRoute);
 
 export let sequelize: Sequelize;
 
