@@ -41,7 +41,7 @@ describe("E2E test for product", () => {
 	});
 
 	it("Should be able to register a new product", async () => {
-		const response = await request(app).post("/product/create").send({
+		const response = await request(app).post("/products").send({
 			name: "Test Product",
 			description: "Description",
 			purchasePrice: 1,
@@ -53,7 +53,7 @@ describe("E2E test for product", () => {
 	});
 
 	it("Should not be able to register a product with invalid data", async () => {
-		const response = await request(app).post("/product/create").send({
+		const response = await request(app).post("/products").send({
 			name: "Test Product",
 			description: "Description",
 			stock: 1,

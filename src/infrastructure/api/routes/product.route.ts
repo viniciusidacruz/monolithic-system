@@ -5,27 +5,24 @@ import { AddProductFacadeInputDTO } from "../../../modules/product-adm/facade/pr
 
 export const productRoute = express.Router();
 
-productRoute.post(
-	"/product/create",
-	async (request: Request, response: Response) => {
-		const productFacade = ProductADMFacadeFactory.create();
-		const payload = request.body;
+productRoute.post("/products", async (request: Request, response: Response) => {
+	const productFacade = ProductADMFacadeFactory.create();
+	const payload = request.body;
 
-		const input: AddProductFacadeInputDTO = {
-			description: payload.description,
-			name: payload.name,
-			purchasePrice: payload.purchasePrice,
-			stock: payload.stock,
-		};
+	const input: AddProductFacadeInputDTO = {
+		description: payload.description,
+		name: payload.name,
+		purchasePrice: payload.purchasePrice,
+		stock: payload.stock,
+	};
 
-		try {
-			await productFacade.addProduct(input);
+	try {
+		await productFacade.addProduct(input);
 
-			response.status(201).json({ message: "Product created successfully" });
-		} catch (err) {
-			const error = err as Error;
+		response.status(201).json({ message: "Product created successfully" });
+	} catch (err) {
+		const error = err as Error;
 
-			response.status(400).json({ error: error.message });
-		}
+		response.status(400).json({ error: error.message });
 	}
-);
+});

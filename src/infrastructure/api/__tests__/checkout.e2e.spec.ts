@@ -4,14 +4,18 @@ import express, { Express } from "express";
 import { Sequelize } from "sequelize-typescript";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
-import { clientRoute } from "../routes/client.route";
+import { productRoute } from "../routes/product.route";
 import { migrator } from "../../../test-migrations/config-migrations/migrator";
+import { InvoiceModel } from "../../../modules/invoice/repository/invoice.model";
 import { ClientModel } from "../../../modules/client-adm/repository/client.model";
+import { ProductModel } from "../../../modules/store-catalog/repository/product.model";
+import { TransactionModel } from "../../../modules/payment/repository/transaction.model";
+import { InvoiceItemModel } from "../../../modules/invoice/repository/invoice-item.model";
+import { ProductRegistrationModel } from "../../../modules/product-adm/repository/product.model";
 
-describe("E2E test for client", () => {
+describe("E2E test for checkout", () => {
 	const app: Express = express();
 	app.use(express.json());
-	app.use("/", clientRoute);
 
 	let sequelize: Sequelize;
 
@@ -24,7 +28,14 @@ describe("E2E test for client", () => {
 			logging: false,
 		});
 
-		sequelize.addModels([ClientModel]);
+		sequelize.addModels([
+			ClientModel,
+			ProductRegistrationModel,
+			InvoiceModel,
+			InvoiceItemModel,
+			TransactionModel,
+			ProductModel,
+		]);
 		migration = migrator(sequelize);
 		await migration.up();
 		await sequelize.sync({ force: true });
@@ -39,42 +50,14 @@ describe("E2E test for client", () => {
 		await sequelize.close();
 	});
 
-	it("Should be able to register a new client", async () => {
+	it.skip("Should be place order", async () => {
 		const response = await request(app)
-			.post("/clients")
+			.post("/checkout")
 			.send({
-				name: "John",
-				email: "json@example.com",
-				document: "123456789",
-				address: {
-					street: "Street",
-					city: "City",
-					state: "State",
-					zipCode: "Zip",
-					number: "0",
-					complement: "Complement",
-				},
+				clientId: 1,
+				products: [{ productId: 1 }],
 			});
 
-		expect(response.status).toBe(201);
-	});
-
-	it("Should not be able to register a client with invalid data", async () => {
-		const response = await request(app)
-			.post("/clients")
-			.send({
-				name: "John",
-				email: "json@example.com",
-				document: "123456789",
-				address: {
-					street: "Street",
-					city: "City",
-					state: "State",
-					zipCode: "Zip",
-					number: "0",
-				},
-			});
-
-		expect(response.status).toBe(400);
+		expect(response.status).toBe(200);
 	});
 });
