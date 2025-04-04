@@ -1,34 +1,25 @@
 import express, { Request, Response } from "express";
 
-import { ClientAdmFacadeFactory } from "../../../modules/client-adm/factory/facade.factory";
-import { AddClientFacadeInputDTO } from "../../../modules/client-adm/facade/client-adm.facade.interface";
+import { CheckoutFacadeFactory } from "../../../modules/checkout/factory/facade.factory";
+import { PlaceOrderFacadeInputDTO } from "../../../modules/checkout/facade/checkout.facade.interface";
 
 export const checkoutRoute = express.Router();
 
 checkoutRoute.post(
 	"/checkout",
 	async (request: Request, response: Response) => {
-		const clientAdmFacade = ClientAdmFacadeFactory.create();
+		const checkoutFacade = CheckoutFacadeFactory.create();
 		const payload = request.body;
 
-		const input: AddClientFacadeInputDTO = {
-			address: {
-				city: payload.address.city,
-				complement: payload.address.complement,
-				number: payload.address.number,
-				state: payload.address.state,
-				street: payload.address.street,
-				zipCode: payload.address.zipCode,
-			},
-			document: payload.document,
-			email: payload.email,
-			name: payload.name,
+		const input: PlaceOrderFacadeInputDTO = {
+			clientId: payload.clientId,
+			products: payload.products,
 		};
 
 		try {
-			await clientAdmFacade.addClient(input);
+			const output = await checkoutFacade.placeOrder(input);
 
-			response.status(201).json({ message: "Client created successfully" });
+			response.status(201).json(output);
 		} catch (err) {
 			const error = err as Error;
 

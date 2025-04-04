@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize-typescript";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { ClientModel } from "../../client-adm/repository/client.model";
 import { ProductRegistrationModel } from "../../product-adm/repository/product.model";
 import { InvoiceModel } from "../../invoice/repository/invoice.model";
@@ -14,11 +14,11 @@ import { OrderModel } from "../repository/order.model";
 describe("Checkout Facade test", () => {
 	let sequelize: Sequelize;
 
-	beforeEach(async () => {
-		sequelize = new Sequelize("database", "username", "password", {
+	beforeAll(async () => {
+		sequelize = new Sequelize({
 			dialect: "sqlite",
-			logging: false,
 			storage: ":memory:",
+			logging: false,
 			sync: { force: true },
 		});
 
@@ -35,13 +35,15 @@ describe("Checkout Facade test", () => {
 		await sequelize.sync();
 	});
 
-	afterEach(async () => {
+	afterAll(async () => {
+		await new Promise((resolve) => setTimeout(resolve, 500));
 		await sequelize.close();
 	});
 
 	it("Should be return place order", async () => {
 		const checkoutFacade = CheckoutFacadeFactory.create();
 
+		// Criação do cliente
 		await ClientModel.create({
 			id: "fdkjfkdjdfk1kj1kjk",
 			name: "John Doe",
@@ -57,15 +59,24 @@ describe("Checkout Facade test", () => {
 			},
 		});
 
-		await ProductRegistrationModel.create({
-			id: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728",
-			name: "Product 1",
-			description: "product description",
-			purchasePrice: 100,
-			stock: 10,
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		});
+		// Criação dos produtos em ambos os módulos
+		await Promise.all([
+			ProductRegistrationModel.create({
+				id: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728",
+				name: "Product 1",
+				description: "product description",
+				purchasePrice: 100,
+				stock: 10,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+			}),
+			ProductModel.create({
+				id: "1d5427d6-d0fc-4cfd-94dc-e5d2099e1728",
+				name: "Product 1",
+				description: "product description",
+				salesPrice: 100,
+			}),
+		]);
 
 		const input: PlaceOrderFacadeInputDTO = {
 			clientId: "fdkjfkdjdfk1kj1kjk",
@@ -80,7 +91,7 @@ describe("Checkout Facade test", () => {
 
 		expect(output.id).toBeTruthy();
 		expect(output.invoiceId).toBeTruthy();
-		expect(output.status).toBe("pending");
+		expect(output.status).toBe("approved");
 		expect(output.total).toBe(100);
 		expect(output.products.length).toBe(1);
 	});

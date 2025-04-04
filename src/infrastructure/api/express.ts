@@ -9,11 +9,13 @@ import { InvoiceItemModel } from "../../modules/invoice/repository/invoice-item.
 import { ProductModel } from "../../modules/store-catalog/repository/product.model";
 import { productRoute } from "./routes/product.route";
 import { clientRoute } from "./routes/client.route";
+import { checkoutRoute } from "./routes/checkout.route";
 
 export const app: Express = express();
 app.use(express.json());
 app.use("/", productRoute);
 app.use("/", clientRoute);
+app.use("/", checkoutRoute);
 
 export let sequelize: Sequelize;
 
